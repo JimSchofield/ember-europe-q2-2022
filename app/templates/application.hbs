@@ -1,3 +1,6 @@
 {{page-title "Ember Europe"}}
 
-<GetDadJoke/> 
+<button type="button" {{on "click" this.toggle}}>Toggle</button>
+{{#if this.toggleValue}}
+  <GetDadJoke />
+{{/if}}
