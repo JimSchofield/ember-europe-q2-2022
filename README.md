@@ -3,6 +3,7 @@
 This is a regular ember app where each example of incremental asynct data handling are on each of these branches:
 
 1. main - Simple fetch in component constructor
+2. 2-using-promise-handler - Dad joke is fetched using a util to contain and handle the promise
 
 ## Prerequisites
 
