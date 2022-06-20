@@ -5,10 +5,12 @@ export default async function () {
     }, 1000);
   });
 
-  return fetch('https://icanhazdadjoke.com/', {
+  const data = await fetch('https://icanhazdadjoke.com/', {
     headers: {
       accept: 'application/json',
       'User-Agent': 'ember-demonstration',
     },
   });
+
+  return data;
 }
