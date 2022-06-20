@@ -2,8 +2,11 @@
 
 This is a regular ember app where each example of incremental asynct data handling are on each of these branches:
 
-1. main - Simple fetch in component constructor
-2. 2-using-promise-handler - Dad joke is fetched using a util to contain and handle the promise
+- main - Simple fetch in component constructor
+- 2-using-promise-handler - Dad joke is fetched using a util to contain and handle the promise
+- 3-handling-abort - Registers destructibles so Ember is aware of destructor methods for our promise handler, and aborts fetches if the component gets destroyed
+- 4-handle-argument-changes - Handle argument changes and reactively update fetch while handling fetch aborting
+
 
 ## Prerequisites
 
