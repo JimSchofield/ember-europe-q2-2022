@@ -1,21 +1,23 @@
 import { tracked } from '@glimmer/tracking';
-import { registerDestructor } from '@ember/destroyable';
+import { Resource } from 'ember-could-get-used-to-this';
 
-export default class PromiseHandler {
+export default class PromiseHandler extends Resource {
   @tracked value;
   @tracked error;
 
-  constructor(promiseFunc, initialSearchTerm) {
-    this.promiseFunc = promiseFunc;
+  setup() {
+    const { promise, searchTerm } = this.args.named;
 
-    this.doFetch(initialSearchTerm);
+    this.promiseFunc = promise;
 
-    registerDestructor(this, () => {
-      this.controller.abort();
-    });
+    this.doFetch(searchTerm);
   }
 
-  async update(searchTerm) {
+  teardown() {
+    this.controller.abort();
+  }
+
+  async update() {
     this.value = null;
     this.error = null;
 
@@ -24,7 +26,7 @@ export default class PromiseHandler {
       this.controller.abort();
     }
 
-    await this.doFetch(searchTerm);
+    await this.doFetch(this.args.named.searchTerm);
   }
 
   async doFetch(searchTerm) {
