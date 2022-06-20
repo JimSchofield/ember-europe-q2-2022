@@ -6,6 +6,8 @@ This is a regular ember app where each example of incremental asynct data handli
 - 2-using-promise-handler - Dad joke is fetched using a util to contain and handle the promise
 - 3-handling-abort - Registers destructibles so Ember is aware of destructor methods for our promise handler, and aborts fetches if the component gets destroyed
 - 4-handle-argument-changes - Handle argument changes and reactively update fetch while handling fetch aborting
+- 5-using-resources - Uses resources class from `ember-could-get-used-to-this`
+- 6-using-ember-resources - Uses `ember-resources` tracked function
 
 
 ## Prerequisites
