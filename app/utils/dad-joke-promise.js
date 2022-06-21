@@ -1,25 +1,25 @@
-export default function (initialSearchTerm) {
-  return async (signal, searchTerm = initialSearchTerm) => {
-    if (searchTerm === '') {
-      throw new Error('Please enter a search term');
-    }
-
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
+export default async function (signal, searchTerm) {
+  if (searchTerm === '') {
+    return Promise.resolve({
+      results: ['Please enter a search term'],
     });
+  }
 
-    const url = `https://icanhazdadjoke.com/search?term=${searchTerm}`;
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
 
-    const data = await fetch(url, {
-      headers: {
-        accept: 'application/json',
-        'User-Agent': 'ember-demonstration',
-      },
-      signal,
-    });
+  const url = `https://icanhazdadjoke.com/search?term=${searchTerm}`;
 
-    return data;
-  };
+  const data = await fetch(url, {
+    headers: {
+      accept: 'application/json',
+      'User-Agent': 'ember-demonstration',
+    },
+    signal,
+  });
+
+  return data;
 }

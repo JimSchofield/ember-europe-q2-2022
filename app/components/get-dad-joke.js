@@ -1,25 +1,42 @@
 import Component from '@glimmer/component';
-import PromiseHandler from '../helpers/promise-handler';
 import dadJokeFetch from '../utils/dad-joke-promise';
-import { use } from 'ember-could-get-used-to-this';
+import { trackedFunction } from 'ember-resources/util/function';
 
 export default class GetDadJokeComponent extends Component {
-  @use jokeResource = new PromiseHandler(() => ({
-    named: {
-      promise: dadJokeFetch(),
-      searchTerm: this.args.searchTerm,
-    },
-  }));
+  jokeResource = trackedFunction(this, async () => {
+    if (this.controller) {
+      this.controller.abort();
+    }
 
-  get noJoke() {
-    return this.jokeResource?.results.length === 0;
+    this.controller = new AbortController();
+
+    const { signal } = this.controller;
+
+    try {
+      const res = await dadJokeFetch(signal, this.args.searchTerm);
+
+      const data = await res.json();
+
+      return data;
+    } catch (error) {
+      // We want to silence this error
+      if (error.name === 'AbortError') {
+        return;
+      }
+
+      return error;
+    }
+  });
+
+  get results() {
+    return this.jokeResource.value?.results;
   }
 
   get joke() {
-    return this.jokeResource?.results[0]?.joke;
-  }
-
-  get error() {
-    return this.jokeResource?.error;
+    if (this.results?.length) {
+      return this.results[0].joke ?? 'Joke not found!';
+    } else {
+      return '';
+    }
   }
 }
